@@ -6,7 +6,7 @@ model = joblib.load('models/model.joblib')
 scaler = joblib.load('models/scaler.joblib')
 
 # Загрузка тестовых данных
-df = pd.read_csv('data/test.csv')
+df = pd.read_csv("/content/drive/MyDrive/Heart_Disease_PJ_DL/data/test.csv")
 
 # Удаление столбца с ID пациента
 df.drop(columns=['ID'], inplace=True)
@@ -14,6 +14,7 @@ df.drop(columns=['ID'], inplace=True)
 # Задаем список категориальных переменных
 cat_list = [
     'sex',
+    'chest',
     'fasting_blood_sugar',
     'resting_electrocardiographic_results',
     'exercise_induced_angina',
@@ -26,7 +27,7 @@ cat_list = [
 df_dum = pd.get_dummies(df, columns=cat_list, drop_first=True)
 
 # Масштабирование данных
-df_scaled = scaler.transform(df_mod)
+df_scaled = scaler.transform(df_dum)
 
 # Предсказание параметров
 predictions = model.predict(df_scaled)
@@ -36,11 +37,11 @@ print(predictions)
 
 try:
     # Загрузка данных и выполнение инференса
-    df = pd.read_csv('data/test.csv')
+    df = pd.read_csv("/content/drive/MyDrive/Heart_Disease_PJ_DL/data/test.csv")
     df.drop(columns=['ID'], inplace=True)
     
-    df_mod = pd.get_dummies(df, columns=cat_list, drop_first=True)
-    df_scaled = scaler.transform(df_mod)
+    df_dum = pd.get_dummies(df, columns=cat_list, drop_first=True)
+    df_scaled = scaler.transform(df_dum)
     
     predictions = model.predict(df_scaled)
     print(predictions)
